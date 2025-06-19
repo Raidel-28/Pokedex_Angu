@@ -1,0 +1,17 @@
+<div class="container">
+    <h1>Pokédex V1 </h1>
+
+    <button (click)="sortByName()">Trier par nom ({{ sortOrder === 'asc' ? 'A-Z' : 'Z-A' }})</button>
+    <div class="pokemon-grid">
+        <div *ngFor="let pokemon of filteredPokemons" class="card">
+            <img [src]="pokemon.image" alt="{{ pokemon.name }}" class="pokemon-image">
+            <h2>{{ pokemon.name }}</h2>
+            <p>Type: {{ pokemon.type }}</p>
+            <p>Height: {{ pokemon.height }} m</p>
+            <p>Weight: {{ pokemon.weight }} kg</p>
+            <button (click)="selectPokemon(pokemon)">Voir les détails</button>
+        </div>
+        <div class="card" (click)="goToDetails(pokemon.name)"></div>
+    </div>
+
+</div>
