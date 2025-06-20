@@ -1,4 +1,6 @@
+<h1>Pokemon Detail</h1>
 <p>pokemon-detail works!</p>
+<button (click)="goBack()">⬅️ Retour</button>
 <div *ngIf="pokemon" class="detail">
     <h2>{{ pokemon.name | titlecase }} (#{{ pokemon.id }})</h2> <img [src]="pokemon.sprites.front_default"
         [alt]="pokemon.name" />

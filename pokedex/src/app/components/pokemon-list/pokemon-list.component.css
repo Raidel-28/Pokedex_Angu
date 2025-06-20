@@ -1,18 +1,21 @@
-.container {
-    text-align: center;
-    padding: 1rem;
-}
-
-.pokemon-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+.pokemon-list {
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
-    margin-top: 2rem;
+    justify-content: center;
 }
 
-.card {
-    border: 1px solid #ddd;
+.pokemon-card {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    width: 150px;
+    text-align: center;
     border-radius: 8px;
-    padding: 0.5rem;
-    background-color: #f9f9f9;
+    transition: 0.3s;
+    background-color: #f8f8f8;
+}
+
+.pokemon-card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
 }

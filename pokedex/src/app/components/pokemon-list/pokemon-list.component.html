@@ -1,7 +1,29 @@
 <div class="container">
     <h1>Pokédex V1 </h1>
 
-    <button (click)="sortByName()">Trier par nom ({{ sortOrder === 'asc' ? 'A-Z' : 'Z-A' }})</button>
+    <h1>Pokédex</h1>
+
+    <!-- Barre de recherche -->
+    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()"
+        placeholder="Rechercher un Pokémon..." />
+
+
+    <!-- Tri -->
+    <select [(ngModel)]="sortOrder" (change)="sortPokemons()">
+        <option value="az">Trier A → Z</option>
+        <option value="za">Trier Z → A</option>
+    </select>
+
+    <!-- Liste des Pokémon -->
+    <ul>
+        <li *ngFor="let pokemon of filteredPokemons" (click)="goToDetails(pokemon.name)">
+            <img
+                [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + getPokemonId(pokemon.url) + '.png'" />
+            {{ pokemon.name | titlecase }}
+        </li>
+    </ul>
+
+
     <div class="pokemon-grid">
         <div *ngFor="let pokemon of filteredPokemons" class="card">
             <img [src]="pokemon.image" alt="{{ pokemon.name }}" class="pokemon-image">
@@ -11,7 +33,7 @@
             <p>Weight: {{ pokemon.weight }} kg</p>
             <button (click)="selectPokemon(pokemon)">Voir les détails</button>
         </div>
-        <div class="card" (click)="goToDetails(pokemon.name)"></div>
+        <!-- Removed erroneous card referencing 'pokemon' outside of *ngFor -->
     </div>
 
 </div>

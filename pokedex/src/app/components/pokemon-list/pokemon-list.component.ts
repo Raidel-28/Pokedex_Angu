@@ -1,50 +1,60 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms'; // Pour ngModel
 import { PokemonService } from '../../services/pokemon.service';
-
-
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
-  template: `
-    <div class="list">
-      <div *ngFor="let pokemon of pokemons" (click)="goToDetails(pokemon.name)" class="card">
-        <img [src]="pokemon.image" [alt]="pokemon.name" />
-        <h3>{{ pokemon.name | titlecase }}</h3>
-      </div>
-    </div>
-  `,
-  styles: [/* tu peux mettre tes styles ici */]
+  imports: [CommonModule, FormsModule],
+  templateUrl: './pokemon-list.component.html',
 })
 export class PokemonListComponent implements OnInit {
-  pokemons: any[] = [];
-  searchTerm: string = '';
-  filteredPokemons: any[] = [];
+  private pokemonService = inject(PokemonService);
+  private router = inject(Router);
 
-  filterByName(): void {
-    const term = this.searchTerm.toLowerCase();
-    this.filteredPokemons = this.pokemons.filter(p => p.name.toLowerCase().includes(term));
-  }
-
-  constructor(private pokemonService: PokemonService, private router: Router) { }
+  pokemons: any[] = [];              // Liste brute de l’API
+  filteredPokemons: any[] = [];      // Liste triée et filtrée
+  searchTerm: string = '';           // Recherche
+  sortOrder: string = 'az';          // Tri par défaut
+  selectPokemon: any;
 
   ngOnInit(): void {
-    this.pokemonService.getPokemons().subscribe((response: any) => {
-      this.pokemons = response.results.map((p: any, i: number) => ({
-        ...p,
-        id: i + 1,
-        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i + 1}.png`
-      }));
+    this.pokemonService.getPokemons().subscribe((data) => {
+      this.pokemons = data.results;
+      this.applyFilters(); // Applique recherche + tri dès le début
     });
+  }
+
+  getPokemonId(url: string): number {
+    return parseInt(url.split('/')[url.split('/').length - 2]);
   }
 
   goToDetails(name: string): void {
     this.router.navigate(['/pokemon', name]);
   }
+
+  sortPokemons(): void {
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    // Recherche + tri combinés
+    this.filteredPokemons = this.pokemons
+      .filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      )
+      .sort((a, b) => {
+        if (this.sortOrder === 'az') {
+          return a.name.localeCompare(b.name);
+        } else {
+          return b.name.localeCompare(a.name);
+        }
+      });
+  }
 }
+
 
 
 

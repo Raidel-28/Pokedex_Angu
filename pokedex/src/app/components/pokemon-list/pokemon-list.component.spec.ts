@@ -1,22 +1,55 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PokemonListComponent } from './pokemon-list.component';
+import { Component, inject, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms'; // Pour ngModel
+import { PokemonService } from '../../services/pokemon.service';
 
-describe('PokemonListComponent', () => {
-  let component: PokemonListComponent;
-  let fixture: ComponentFixture<PokemonListComponent>;
+@Component({
+  selector: 'app-pokemon-list',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './pokemon-list.component.html',
+})
+export class PokemonListComponent implements OnInit {
+  private pokemonService = inject(PokemonService);
+  private router = inject(Router);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [PokemonListComponent]
-    }).compileComponents();
+  pokemons: any[] = [];              // Liste brute de l’API
+  filteredPokemons: any[] = [];      // Liste triée et filtrée
+  searchTerm: string = '';           // Recherche
+  sortOrder: string = 'az';          // Tri par défaut
 
-    fixture = TestBed.createComponent(PokemonListComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+  ngOnInit(): void {
+    this.pokemonService.getPokemons().subscribe((data) => {
+      this.pokemons = data.results;
+      this.applyFilters(); // Applique recherche + tri dès le début
+    });
+  }
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  getPokemonId(url: string): number {
+    return parseInt(url.split('/')[url.split('/').length - 2]);
+  }
 
+  goToDetails(name: string): void {
+    this.router.navigate(['/pokemon', name]);
+  }
+
+  sortPokemons(): void {
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    // Recherche + tri combinés
+    this.filteredPokemons = this.pokemons
+      .filter((pokemon) =>
+        pokemon.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+      )
+      .sort((a, b) => {
+        if (this.sortOrder === 'az') {
+          return a.name.localeCompare(b.name);
+        } else {
+          return b.name.localeCompare(a.name);
+        }
+      });
+  }
+}
