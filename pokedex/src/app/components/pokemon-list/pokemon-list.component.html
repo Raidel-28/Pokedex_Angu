@@ -1,21 +1,18 @@
-<h1>Pokédex</h1>
-
+<h1>Liste des Pokémon</h1>
 
 <!-- Barre de recherche -->
-<input type="text" [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" placeholder="Rechercher un Pokémon..."
-    class="search-bar" />
+<input type="text" placeholder="Rechercher un Pokémon" [(ngModel)]="searchTerm" (input)="filterPokemons()" />
 
 <!-- Sélecteur de tri -->
-<select [(ngModel)]="sortOrder" (change)="applyFilters()" class="sort-select">
-    <option value="az">Trier A → Z</option>
-    <option value="za">Trier Z → A</option>
+<select [(ngModel)]="sortOrder" (change)="sortPokemons()">
+    <option value="az">A → Z</option>
+    <option value="za">Z → A</option>
 </select>
 
-<!-- Liste des Pokémons -->
+<!-- Affichage des Pokémon -->
 <div class="pokemon-grid">
-    <div *ngFor="let pokemon of filteredPokemons" class="pokemon-card">
-        <img [src]="pokemon.image" [alt]="pokemon.name" />
+    <div class="pokemon-card" *ngFor="let pokemon of filteredPokemons" (click)="goToDetail(pokemon.name)">
+        <img [src]="pokemon.sprites.front_default" [alt]="pokemon.name" />
         <h3>{{ pokemon.name | titlecase }}</h3>
-        <button (click)="viewDetails(pokemon.name)">Détails</button>
     </div>
 </div>
