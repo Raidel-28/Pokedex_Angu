@@ -1,39 +1,21 @@
-<div class="container">
-    <h1>Pokédex V1 </h1>
-
-    <h1>Pokédex</h1>
-
-    <!-- Barre de recherche -->
-    <input type="text" [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()"
-        placeholder="Rechercher un Pokémon..." />
+<h1>Pokédex</h1>
 
 
-    <!-- Tri -->
-    <select [(ngModel)]="sortOrder" (change)="sortPokemons()">
-        <option value="az">Trier A → Z</option>
-        <option value="za">Trier Z → A</option>
-    </select>
+<!-- Barre de recherche -->
+<input type="text" [(ngModel)]="searchTerm" (ngModelChange)="applyFilters()" placeholder="Rechercher un Pokémon..."
+    class="search-bar" />
 
-    <!-- Liste des Pokémon -->
-    <ul>
-        <li *ngFor="let pokemon of filteredPokemons" (click)="goToDetails(pokemon.name)">
-            <img
-                [src]="'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/' + getPokemonId(pokemon.url) + '.png'" />
-            {{ pokemon.name | titlecase }}
-        </li>
-    </ul>
+<!-- Sélecteur de tri -->
+<select [(ngModel)]="sortOrder" (change)="applyFilters()" class="sort-select">
+    <option value="az">Trier A → Z</option>
+    <option value="za">Trier Z → A</option>
+</select>
 
-
-    <div class="pokemon-grid">
-        <div *ngFor="let pokemon of filteredPokemons" class="card">
-            <img [src]="pokemon.image" alt="{{ pokemon.name }}" class="pokemon-image">
-            <h2>{{ pokemon.name }}</h2>
-            <p>Type: {{ pokemon.type }}</p>
-            <p>Height: {{ pokemon.height }} m</p>
-            <p>Weight: {{ pokemon.weight }} kg</p>
-            <button (click)="selectPokemon(pokemon)">Voir les détails</button>
-        </div>
-        <!-- Removed erroneous card referencing 'pokemon' outside of *ngFor -->
+<!-- Liste des Pokémons -->
+<div class="pokemon-grid">
+    <div *ngFor="let pokemon of filteredPokemons" class="pokemon-card">
+        <img [src]="pokemon.image" [alt]="pokemon.name" />
+        <h3>{{ pokemon.name | titlecase }}</h3>
+        <button (click)="viewDetails(pokemon.name)">Détails</button>
     </div>
-
 </div>
