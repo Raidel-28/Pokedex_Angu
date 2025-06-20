@@ -1,74 +1,76 @@
 .detail-container {
-    max-width: 480px;
+    max-width: 800px;
     margin: 2rem auto;
-    background-color: #f44336;
-    /* rouge pokedex */
-    border-radius: 20px;
-    padding: 1.5rem;
-    color: white;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2rem;
+    background-color: #f2f2f2;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    font-family: 'Segoe UI', sans-serif;
 }
 
+/* Bouton retour */
 button {
-    background-color: #222;
-    color: #f44336;
+    background-color: #e3350d;
+    color: white;
     border: none;
-    border-radius: 10px;
     padding: 0.6rem 1rem;
-    font-weight: bold;
+    border-radius: 0.5rem;
     cursor: pointer;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
-    transition: background-color 0.3s ease;
+    font-weight: bold;
     margin-bottom: 1rem;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #ff7961;
-    color: white;
+    background-color: #b71c1c;
 }
 
+/* Détail principal */
 .detail {
-    background-color: white;
-    border-radius: 15px;
-    padding: 1rem 1.5rem;
-    color: #222;
-    box-shadow: inset 0 0 10px rgba(244, 67, 54, 0.4);
+    text-align: center;
 }
 
 .detail h2 {
-    text-align: center;
-    text-transform: capitalize;
+    font-size: 2rem;
     margin-bottom: 1rem;
-    color: #b71c1c;
+    color: #e3350d;
 }
 
 .detail img {
-    display: block;
-    margin: 0 auto 1rem;
     width: 150px;
     height: 150px;
     object-fit: contain;
-    filter: drop-shadow(0 0 5px #f44336);
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border: 2px solid #e3350d;
+    border-radius: 1rem;
+    padding: 0.5rem;
 }
 
 .detail p {
+    font-size: 1.1rem;
+    margin: 0.4rem 0;
+}
+
+/* Titres secondaires */
+.detail h3 {
+    margin-top: 1.5rem;
+    font-size: 1.3rem;
+    color: #333;
+    border-bottom: 2px solid #e3350d;
+    display: inline-block;
+    padding-bottom: 0.2rem;
+}
+
+/* Listes */
+.detail ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 0.5rem;
+}
+
+.detail li {
     font-size: 1rem;
     margin: 0.3rem 0;
-}
-
-.detail ul {
-    list-style: none;
-    padding: 0;
-    margin: 0.5rem 0 1rem 0;
-}
-
-.detail ul li {
-    background-color: #f44336;
-    color: white;
-    margin-bottom: 0.3rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 10px;
     text-transform: capitalize;
-    box-shadow: 0 2px 5px rgba(183, 28, 28, 0.6);
 }
